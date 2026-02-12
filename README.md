@@ -1,1 +1,2 @@
-# cse3120_game_1
+# CSE 3120 Project # 1
+By Prottasha Deb and Aiden Stensrud
