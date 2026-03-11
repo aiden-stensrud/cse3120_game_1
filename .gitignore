@@ -3,9 +3,11 @@ cse game 1/src/main.lst
 cse game 1/src/main.obj
 cse game 1/src/main.pdb
 cse game 1/src/main.pdb
+cse game 1/src/main.exe
 
 cse game 1/src/Project.VC.db
 cse game 1/src/Project.lst
 cse game 1/src/Project.sdf
 cse game 1/src/Project.vcxproj.user
+cse game 1/src/Project.v12.suo
 cse game 1/src/Debug/
