@@ -1,13 +1,11 @@
-*.exe
-*.ilk
-*.lst
-*.obj
-*.pdb
-*.vcxproj.user
-*.log
+"cse game 1"/src/main.ilk
+"cse game 1"/src/main.lst
+"cse game 1"/src/main.obj
+"cse game 1"/src/main.pdb
+"cse game 1"/src/main.pdb
 
-.vs/
-.ipch/
-Debug/
-Release/
-x64/
+"cse game 1"/src/Project.VC.db
+"cse game 1"/src/Project.lst
+"cse game 1"/src/Project.sdf
+"cse game 1"/src/Project.vcxproj.user
+"cse game 1"/src/Debug/
