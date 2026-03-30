@@ -1,16 +1,52 @@
-; AddTwo.asm - adds two 32-bit integers.
-; Chapter 3 example
+INCLUDE Irvine32.inc
 
-.386
-.model flat,stdcall
-.stack 4096
-ExitProcess proto,dwExitCode:dword
+.data
+word1 BYTE "apple", 0
+word2 BYTE "trump", 0
+word3 BYTE "mango", 0
+word4 BYTE "world", 0
+
+words DWORD OFFSET word1, OFFSET word2, OFFSET word3, OFFSET word4
+wordCount = 4
+
+
+selectedWord DWORD ? 
+hiddenWord BYTE 20 DUP(? )
 
 .code
-main proc
-	mov	eax,3				
-	add	eax,6				
+main PROC
 
-	invoke ExitProcess,0
-main endp
-end main
+call Randomize
+
+mov eax, wordCount
+call RandomRange
+
+mov esi, OFFSET words
+mov eax, [esi + eax * 4]
+mov selectedWord, eax
+
+mov esi, selectedWord
+mov edi, OFFSET hiddenWord
+
+create_loop :
+mov al, [esi]
+cmp al, 0
+je done_create
+
+mov BYTE PTR[edi], '_'
+
+inc esi
+inc edi
+jmp create_loop
+
+done_create :
+mov BYTE PTR[edi], 0
+
+mov edx, OFFSET hiddenWord
+call WriteString
+call Crlf
+
+exit
+main ENDP
+
+END main
