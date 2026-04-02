@@ -39,6 +39,10 @@ main proc
     call ReadChar        ; AL = character entered
     mov input, al        ; store it
     call Crlf
+	call CheckGuess
+	mov edx, OFFSET revealed_word
+    call WriteString
+    call Crlf
 
 	invoke ExitProcess,0
 main endp
@@ -58,5 +62,34 @@ done:
     mov BYTE PTR [edi], 0           ; null terminate
     ret
 InitRevealedWord ENDP
+
+CheckGuess PROC
+    mov esi, OFFSET guess_word
+    mov edi, OFFSET revealed_word
+    mov bl, 0              ; changedFlag = 0
+checkLoop:
+    mov dl, [esi]
+    cmp dl, 0
+    je done
+    cmp dl, al
+    jne nextChar
+    cmp BYTE PTR [edi], '_'
+    jne nextChar
+    mov [edi], al          ; reveal letter
+    mov bl, 1              ; mark that we changed something
+nextChar:
+    inc esi
+    inc edi
+    jmp checkLoop
+done:
+    cmp bl, 1
+    je finished            ; at least one match - done
+    call WrongGuess        ; no matches - wrong guess
+finished:
+    ret
+CheckGuess ENDP
+
+WrongGuess PROC
+WrongGuess ENDP
 
 end main
