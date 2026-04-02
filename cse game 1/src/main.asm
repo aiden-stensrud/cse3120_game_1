@@ -5,18 +5,18 @@ INCLUDE Irvine32.inc
 ExitProcess proto,dwExitCode:dword
 .data
 
-EXTERN words:DWORD				; words in a pool of words
-EXTERN wordCount:DWORD			; number of words in the pool
+EXTERN words:DWORD					; words in a pool of words
+EXTERN wordCount:DWORD				; number of words in the pool
 
-guess_word DWORD ?				; the word to be guessed by the player
-word_length DWORD ?				; the length of guess_wrd
+guess_word DWORD ?					; the word to be guessed by the player
+word_length DWORD ?					; the length of guess_wrd
 
-revealed_word BYTE 32 DUP(0)	; the portion of the word revealed to the player
+revealed_word BYTE 32 DUP(0)		; the portion of the word revealed to the player
 					
-letter_guessed BYTE ?			; the letter guessed by the player
-guessed_letters BYTE 27 DUP(0)	; the letters the player has guessed so far
-correct_letters DWORD 0			; the number of letters the player has found
-wrong_guesses DWORD 0			; the number of incorrect guesses the player has made
+letter_guessed BYTE ?				; the letter guessed by the player
+guessed_letters BYTE 27 DUP(0)		; the letters the player has guessed so far
+correct_letters DWORD 0				; the number of letters the player has found
+wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 
 ; prompt text displayed to the player
 prompt BYTE "Enter a letter (lowercase): ",0
@@ -24,55 +24,55 @@ guessed_display BYTE "Guessed: ",0
 win_text BYTE "You Win!",0
 lose_text BYTE "You Lose! The word was: ",0
 
-EXTERN hangman_pointers:DWORD	; the hangman ascii arts
-EXTERN max_wrong:DWORD			; the number of incorrect guesses the player can make
+EXTERN hangman_pointers:DWORD		; the hangman ascii arts
+EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
 .code
 main proc
-	call GetRandomWord			; set the guess_word to a random word in words
+	call GetRandomWord				; set the guess_word to a random word in words
 	call GetWordLength
-	call InitRevealedWord		; initialize the list of revealed words as a blank slate
+	call InitRevealedWord			; initialize the list of revealed words as a blank slate
 
 game:
 	call Clrscr
-	call DisplayHangman			; display the hangman character in its current phase
+	call DisplayHangman				; display the hangman character in its current phase
 
-	mov edx, OFFSET revealed_word ; print the word with the correctly guessed letters revealed
+	mov edx, OFFSET revealed_word	; print the word with the correctly guessed letters revealed
     call WriteString
     call Crlf	
 
-	mov eax, wrong_guesses		; check for loss
+	mov eax, wrong_guesses			; check for loss
 	cmp eax, max_wrong
 	je lose_end
 
-	mov eax, correct_letters	; check for win
+	mov eax, correct_letters		; check for win
 	mov ebx, word_length
 	cmp ebx, eax
 	je win_end
 
-	call DisplayGuessed			; display guessed letters
+	call DisplayGuessed				; display guessed letters
 
-	mov edx, OFFSET prompt		; get character from player
+	mov edx, OFFSET prompt			; get character from player
     call WriteString
-    call ReadChar				; character entered is stored in al
+    call ReadChar					; character entered is stored in al
     call Crlf
 
 	call ValidateGuess
 	cmp eax, 0
 	jne game
 
-	call AddGuess				; add guess to array and compare against word
+	call AddGuess					; add guess to array and compare against word
 	call CheckGuess
 	jmp game
 
 lose_end:
-	mov edx, OFFSET lose_text	; inform the player they have lost and what the word was
+	mov edx, OFFSET lose_text		; inform the player they have lost and what the word was
 	call WriteString
 	mov edx, guess_word
 	jmp game_end
 
 win_end:
-	mov edx, OFFSET win_text	; inform the player they have won
+	mov edx, OFFSET win_text		; inform the player they have won
 	jmp game_end
 
 game_end:
@@ -94,14 +94,14 @@ GetRandomWord ENDP
 
 GetWordLength PROC
     mov esi, guess_word
-    xor ecx, ecx                 ; counter = 0
+    xor ecx, ecx					; counter = 0
 countLoop:
     mov al, [esi]
-    cmp al, 0                    ; end of string?
+    cmp al, 0						; end of string?
     je done
 
-    inc ecx                      ; increment length
-    inc esi                      ; move to next char
+    inc ecx							; increment length
+    inc esi							; move to next char
     jmp countLoop
 
 done:
@@ -131,7 +131,7 @@ InitRevealedWord ENDP
 DisplayHangman PROC
     mov esi, OFFSET hangman_pointers
     mov eax, wrong_guesses
-    shl eax, 2              ; multiply by 4
+    shl eax, 2						; multiply by 4
     add esi, eax
     mov edx, [esi]
     call WriteString
@@ -153,10 +153,10 @@ checkLoop:
     je reject
     inc esi
     jmp checkLoop
-accept:
+accept:								; input is valid
     mov eax, 0
     ret
-reject:
+reject:								; input is not valid
     mov eax, 1
     ret
 ValidateGuess ENDP
@@ -178,7 +178,7 @@ AddGuess PROC
 
 findEnd:
     mov al, [esi]
-    cmp al, 0            ; find null terminator
+    cmp al, 0						; find null terminator
     je store
 
     inc esi
@@ -186,9 +186,9 @@ findEnd:
 
 store:
 	mov al, letter_guessed
-    mov [esi], al       ; store new char
+    mov [esi], al					; store new char
     inc esi
-    mov BYTE PTR [esi], 0 ; re-add null terminator
+    mov BYTE PTR [esi], 0			; re-add null terminator
     ret
 AddGuess ENDP
 
@@ -208,8 +208,8 @@ checkLoop:
     cmp BYTE PTR [edi], '_'
     jne nextChar
 
-    mov [edi], al          ; reveal letter
-    mov bl, 1              ; mark that we changed something
+    mov [edi], al					; reveal letter
+    mov bl, 1						; mark change
 	inc correct_letters
 
 nextChar:
@@ -219,8 +219,8 @@ nextChar:
 
 done:
     cmp bl, 1
-    je finished            ; at least one match - done
-    call WrongGuess        ; no matches - wrong guess
+    je finished						; at least one match - done
+    call WrongGuess					; no matches - wrong guess
 
 finished:
     ret
