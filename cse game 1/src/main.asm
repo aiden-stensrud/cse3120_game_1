@@ -3,12 +3,15 @@
 INCLUDE Irvine32.inc
 
 .386
-.model flat,stdcall
 .stack 4096
 ExitProcess proto,dwExitCode:dword
 .data
 guess_word BYTE "hello",0
 revealed_word BYTE "_____",0
+
+prompt BYTE "Enter a letter (lowercase): ",0
+input  BYTE ?
+
 hangman BYTE \
 " +---+",0Dh,0Ah,\
 " |   |",0Dh,0Ah,\
@@ -30,6 +33,12 @@ main proc
 	mov edx, OFFSET revealed_word
     call WriteString
     call Crlf		
+
+	mov edx, OFFSET prompt ; get character from player
+    call WriteString
+    call ReadChar        ; AL = character entered
+    mov input, al        ; store it
+    call Crlf
 
 	invoke ExitProcess,0
 main endp
