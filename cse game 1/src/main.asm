@@ -46,6 +46,42 @@ hang2 BYTE \
 "     |",0Dh,0Ah,\
 "======",0
 
+hang3 BYTE \
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+" O   |",0Dh,0Ah,\
+"/|   |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
+hang4 BYTE \
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+" O   |",0Dh,0Ah,\
+"/|\  |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
+hang5 BYTE \
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+" O   |",0Dh,0Ah,\
+"/|\  |",0Dh,0Ah,\
+"/    |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
+hang6 BYTE \
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+" O   |",0Dh,0Ah,\
+"/|\  |",0Dh,0Ah,\
+"/ \  |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
 .code
 main proc
 ;prottasha code here
