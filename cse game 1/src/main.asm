@@ -55,6 +55,7 @@ game:
 	mov edx, OFFSET prompt			; get character from player
     call WriteString
     call ReadChar					; character entered is stored in al
+	mov letter_guessed, al
     call Crlf
 
 	call ValidateGuess
@@ -141,6 +142,7 @@ DisplayHangman ENDP
 
 ValidateGuess PROC
     ; check if lowercase a-z
+	mov al, letter_guessed
     cmp al, 'a'
     jb reject
     cmp al, 'z'
@@ -174,27 +176,26 @@ DisplayGuessed ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
-	mov letter_guessed, al
 
 findEnd:
     mov al, [esi]
-    cmp al, 0						; find null terminator
+    cmp al, 0
     je store
-
     inc esi
     jmp findEnd
 
 store:
-	mov al, letter_guessed
-    mov [esi], al					; store new char
+    mov al, letter_guessed
+    mov [esi], al
     inc esi
-    mov BYTE PTR [esi], 0			; re-add null terminator
+    mov BYTE PTR [esi], 0
     ret
 AddGuess ENDP
 
 CheckGuess PROC
     mov esi, guess_word
     mov edi, OFFSET revealed_word
+    mov al, letter_guessed
     mov bl, 0
 
 checkLoop:
@@ -208,9 +209,9 @@ checkLoop:
     cmp BYTE PTR [edi], '_'
     jne nextChar
 
-    mov [edi], al					; reveal letter
-    mov bl, 1						; mark change
-	inc correct_letters
+    mov [edi], al
+    mov bl, 1
+    inc correct_letters
 
 nextChar:
     inc esi
@@ -219,8 +220,8 @@ nextChar:
 
 done:
     cmp bl, 1
-    je finished						; at least one match - done
-    call WrongGuess					; no matches - wrong guess
+    je finished
+    call WrongGuess
 
 finished:
     ret
