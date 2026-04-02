@@ -94,7 +94,7 @@ main proc
 game:
 	call Clrscr
 	call DisplayHangman
-	mov edx, OFFSET revealed_word
+	mov edx, OFFSET revealed_word ; print the word with the correctly guessed letters revealed
     call WriteString
     call Crlf	
 	mov eax, wrong_guesses ; check for loss
@@ -104,11 +104,7 @@ game:
 	mov ebx, word_length
 	cmp ebx, eax
 	je win_end
-	mov edx, OFFSET guessed_display ; display guessed letters
-	call WriteString
-	mov edx, OFFSET guessed_letters
-	call WriteString
-	call Crlf	
+	call DisplayGuessed	
 
 	mov edx, OFFSET prompt ; get character from player
     call WriteString
@@ -171,6 +167,15 @@ DisplayHangman PROC
 	call Crlf
     ret
 DisplayHangman ENDP
+
+DisplayGuessed PROC
+	mov edx, OFFSET guessed_display ; display guessed letters
+	call WriteString
+	mov edx, OFFSET guessed_letters
+	call WriteString
+	call Crlf
+	ret
+DisplayGuessed ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
