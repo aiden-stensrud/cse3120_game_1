@@ -8,8 +8,10 @@ ExitProcess proto,dwExitCode:dword
 .data
 guess_word BYTE "hello",0
 revealed_word BYTE "_____",0
+letter_guessed BYTE ?
 guessed_letters BYTE 27 DUP(0)
 prompt BYTE "Enter a letter (lowercase): ",0
+guessed_display BYTE "Guessed: ",0
 input  BYTE ?
 
 hangman BYTE \
@@ -34,7 +36,12 @@ game:
     call Crlf
 	mov edx, OFFSET revealed_word
     call WriteString
-    call Crlf		
+    call Crlf	
+	mov edx, OFFSET guessed_display
+	call WriteString
+	mov edx, OFFSET guessed_letters
+	call WriteString
+	call Crlf	
 
 	mov edx, OFFSET prompt ; get character from player
     call WriteString
@@ -66,6 +73,7 @@ InitRevealedWord ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
+	mov letter_guessed, al
 findEnd:
     mov al, [esi]
     cmp al, 0            ; find null terminator
@@ -73,7 +81,8 @@ findEnd:
     inc esi
     jmp findEnd
 store:
-    mov [esi], al        ; store new char
+	mov al, letter_guessed
+    mov [esi], al       ; store new char
     inc esi
     mov BYTE PTR [esi], 0 ; re-add null terminator
     ret
