@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.00.24210.0	    04/02/26 02:42:35
+Microsoft (R) Macro Assembler Version 14.00.24210.0	    04/02/26 02:45:25
 hangman_art.asm						     Page 1 - 1
 
 
@@ -175,7 +175,7 @@ hangman_art.asm						     Page 1 - 1
  000001D8 00000007		max_wrong DWORD 7
 
 				END
-Microsoft (R) Macro Assembler Version 14.00.24210.0	    04/02/26 02:42:35
+Microsoft (R) Macro Assembler Version 14.00.24210.0	    04/02/26 02:45:25
 hangman_art.asm						     Symbols 2 - 1
 
 

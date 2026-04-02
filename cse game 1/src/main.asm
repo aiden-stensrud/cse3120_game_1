@@ -164,7 +164,7 @@ store:
 AddGuess ENDP
 
 CheckGuess PROC
-    mov esi, OFFSET guess_word
+    mov esi, guess_word
     mov edi, OFFSET revealed_word
     mov bl, 0
 
