@@ -91,9 +91,10 @@ main proc
 	mov	eax,4				
 	add	eax,6	
 	call GetWordLength
+
 game:
 	call Clrscr
-	call DisplayHangman
+	call DisplayHangman ; display the hangman character in its current phase
 
 	mov edx, OFFSET revealed_word ; print the word with the correctly guessed letters revealed
     call WriteString
@@ -140,9 +141,11 @@ countLoop:
     mov al, [esi]
     cmp al, 0                    ; end of string?
     je done
+
     inc ecx                      ; increment length
     inc esi                      ; move to next char
     jmp countLoop
+
 done:
     mov word_length, ecx
     ret
@@ -151,14 +154,17 @@ GetWordLength ENDP
 InitRevealedWord PROC ; initialize blank un-revealed word
     mov esi, OFFSET guess_word      ; source
     mov edi, OFFSET revealed_word   ; destination
+
 buildLoop:
     mov al, [esi]
     cmp al, 0
     je done
+
     mov BYTE PTR [edi], '_'         ; replace with underscore
     inc esi
     inc edi
     jmp buildLoop
+
 done:
     mov BYTE PTR [edi], 0           ; null terminate
     ret
@@ -178,8 +184,10 @@ DisplayHangman ENDP
 DisplayGuessed PROC
 	mov edx, OFFSET guessed_display
 	call WriteString
+
 	mov edx, OFFSET guessed_letters
 	call WriteString
+
 	call Crlf
 	ret
 DisplayGuessed ENDP
@@ -187,12 +195,15 @@ DisplayGuessed ENDP
 AddGuess PROC
     mov esi, OFFSET guessed_letters
 	mov letter_guessed, al
+
 findEnd:
     mov al, [esi]
     cmp al, 0            ; find null terminator
     je store
+
     inc esi
     jmp findEnd
+
 store:
 	mov al, letter_guessed
     mov [esi], al       ; store new char
@@ -204,26 +215,33 @@ AddGuess ENDP
 CheckGuess PROC
     mov esi, OFFSET guess_word
     mov edi, OFFSET revealed_word
-    mov bl, 0              ; changedFlag = 0
+    mov bl, 0
+
 checkLoop:
     mov dl, [esi]
     cmp dl, 0
     je done
+
     cmp dl, al
     jne nextChar
+
     cmp BYTE PTR [edi], '_'
     jne nextChar
+
     mov [edi], al          ; reveal letter
     mov bl, 1              ; mark that we changed something
 	inc correct_letters
+
 nextChar:
     inc esi
     inc edi
     jmp checkLoop
+
 done:
     cmp bl, 1
     je finished            ; at least one match - done
     call WrongGuess        ; no matches - wrong guess
+
 finished:
     ret
 CheckGuess ENDP
