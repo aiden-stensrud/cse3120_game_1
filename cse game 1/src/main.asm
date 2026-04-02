@@ -119,19 +119,7 @@ hangman_pointers DWORD OFFSET hang0, OFFSET hang1, OFFSET hang2, OFFSET hang3
 
 .code
 main proc
-;prottasha code here
-;chapter 5, page 196
-call Randomize
-
-mov eax, wordCount
-call RandomRange
-
-mov esi, OFFSET words
-mov eax, [esi + eax * 4]
-mov guess_word, eax
-
-	mov	eax,4				
-	add	eax,6	
+	call GetRandomWord ; set the guess_word to a random word in words
 	call GetWordLength
 
 game:
@@ -175,6 +163,16 @@ game_end:
 	call Crlf
 	invoke ExitProcess,0
 main endp
+
+GetRandomWord PROC
+	;random functions derived from textbook chapter 5, page 196
+	call Randomize
+	mov eax, wordCount
+	call RandomRange
+	mov esi, OFFSET words
+	mov eax, [esi + eax * 4]
+	mov guess_word, eax
+GetRandomWord ENDP
 
 GetWordLength PROC
     mov esi, OFFSET guess_word   ; pointer to string
