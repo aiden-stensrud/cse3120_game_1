@@ -3,7 +3,21 @@ cse game 1/src/main.lst
 cse game 1/src/main.obj
 cse game 1/src/main.pdb
 cse game 1/src/main.pdb
-cse game 1/src/main.exe
+
+cse game 1/src/words.ilk
+cse game 1/src/words.lst
+cse game 1/src/words.obj
+cse game 1/src/words.pdb
+cse game 1/src/words.pdb
+
+cse game 1/src/hangman_art.ilk
+cse game 1/src/hangman_art.lst
+cse game 1/src/hangman_art.obj
+cse game 1/src/hangman_art.pdb
+cse game 1/src/hangman_art.pdb
+cse game 1/src/hangman_art.exe
+
+cse game 1/src/hangman.exe
 
 cse game 1/src/Project.VC.db
 cse game 1/src/Project.lst
