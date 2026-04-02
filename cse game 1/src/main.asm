@@ -57,6 +57,10 @@ game:
     call ReadChar ; character entered is stored in al
     call Crlf
 
+	call ValidateGuess
+	cmp eax, 0
+	jne game
+
 	call AddGuess ; add guess to array and compare against word
 	call CheckGuess
 	jmp game
@@ -134,6 +138,28 @@ DisplayHangman PROC
 	call Crlf
     ret
 DisplayHangman ENDP
+
+ValidateGuess PROC
+    ; check if lowercase a-z
+    cmp al, 'a'
+    jb reject
+    cmp al, 'z'
+    ja reject
+    mov esi, OFFSET guessed_letters ; check duplicates
+checkLoop:
+    cmp BYTE PTR [esi], 0
+    je accept
+    cmp BYTE PTR [esi], al
+    je reject
+    inc esi
+    jmp checkLoop
+accept:
+    mov eax, 0
+    ret
+reject:
+    mov eax, 1
+    ret
+ValidateGuess ENDP
 
 DisplayGuessed PROC
 	mov edx, OFFSET guessed_display
