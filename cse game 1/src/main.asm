@@ -19,14 +19,32 @@ input  BYTE ?
 win_text BYTE "You Win!",0
 lose_text BYTE "You Lose!",0
 
-hangman BYTE \
+hang0 BYTE \ ; hangman ascii arts
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
+hang1 BYTE \
 " +---+",0Dh,0Ah,\
 " |   |",0Dh,0Ah,\
 " O   |",0Dh,0Ah,\
-"/|\  |",0Dh,0Ah,\
-"/ \  |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0Dh,0Ah,0
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
+
+hang2 BYTE \
+" +---+",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+" O   |",0Dh,0Ah,\
+" |   |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"     |",0Dh,0Ah,\
+"======",0
 
 .code
 main proc
@@ -36,13 +54,20 @@ main proc
 	call GetWordLength
 game:
 	call Clrscr
-	mov edx, OFFSET hangman
+	mov edx, OFFSET hang0
     call WriteString
     call Crlf
 	mov edx, OFFSET revealed_word
     call WriteString
     call Crlf	
-	mov edx, OFFSET guessed_display
+	movzx eax, wrong_guesses ; check for loss
+	cmp eax,6
+	je lose_end
+	mov eax, correct_letters ; check for win
+	mov ebx, word_length
+	cmp ebx, eax
+	je win_end
+	mov edx, OFFSET guessed_display ; display guessed letters
 	call WriteString
 	mov edx, OFFSET guessed_letters
 	call WriteString
@@ -55,13 +80,6 @@ game:
     call Crlf
 	call AddGuess
 	call CheckGuess
-	movzx eax, wrong_guesses
-	cmp eax,6
-	je lose_end
-	mov eax, correct_letters
-	mov ebx, word_length
-	cmp ebx, eax
-	je win_end
 	jmp game
 lose_end:
 	mov edx, OFFSET lose_text
