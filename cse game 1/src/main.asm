@@ -27,6 +27,8 @@ main proc
 	mov	eax,4				
 	add	eax,6	
 	; prints the inital hangman character
+game:
+	call Clrscr
 	mov edx, OFFSET hangman
     call WriteString
     call Crlf
@@ -40,9 +42,7 @@ main proc
     mov input, al        ; store it
     call Crlf
 	call CheckGuess
-	mov edx, OFFSET revealed_word
-    call WriteString
-    call Crlf
+	jmp game
 
 	invoke ExitProcess,0
 main endp
@@ -90,6 +90,7 @@ finished:
 CheckGuess ENDP
 
 WrongGuess PROC
+ret
 WrongGuess ENDP
 
 end main
