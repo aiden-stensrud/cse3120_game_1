@@ -8,7 +8,7 @@ ExitProcess proto,dwExitCode:dword
 .data
 guess_word BYTE "hello",0
 revealed_word BYTE "_____",0
-
+guessed_letters BYTE 27 DUP(0)
 prompt BYTE "Enter a letter (lowercase): ",0
 input  BYTE ?
 
@@ -41,6 +41,7 @@ game:
     call ReadChar        ; AL = character entered
     mov input, al        ; store it
     call Crlf
+	call AddGuess
 	call CheckGuess
 	jmp game
 
@@ -62,6 +63,21 @@ done:
     mov BYTE PTR [edi], 0           ; null terminate
     ret
 InitRevealedWord ENDP
+
+AddGuess PROC
+    mov esi, OFFSET guessed_letters
+findEnd:
+    mov al, [esi]
+    cmp al, 0            ; find null terminator
+    je store
+    inc esi
+    jmp findEnd
+store:
+    mov [esi], al        ; store new char
+    inc esi
+    mov BYTE PTR [esi], 0 ; re-add null terminator
+    ret
+AddGuess ENDP
 
 CheckGuess PROC
     mov esi, OFFSET guess_word
