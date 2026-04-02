@@ -7,13 +7,16 @@ INCLUDE Irvine32.inc
 ExitProcess proto,dwExitCode:dword
 .data
 guess_word BYTE "hello",0
+word_length DWORD ?
 revealed_word BYTE "_____",0
 letter_guessed BYTE ?
 guessed_letters BYTE 27 DUP(0)
+correct_letters DWORD 0
 wrong_guesses BYTE 0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
 input  BYTE ?
+win_text BYTE "You Win!",0
 lose_text BYTE "You Lose!",0
 
 hangman BYTE \
@@ -30,7 +33,7 @@ main proc
 ;prottasha code here
 	mov	eax,4				
 	add	eax,6	
-	; prints the inital hangman character
+	call GetWordLength
 game:
 	call Clrscr
 	mov edx, OFFSET hangman
@@ -52,15 +55,40 @@ game:
     call Crlf
 	call AddGuess
 	call CheckGuess
-	cmp wrong_guesses,6
+	movzx eax, wrong_guesses
+	cmp eax,6
 	je lose_end
+	mov eax, correct_letters
+	mov ebx, word_length
+	cmp ebx, eax
+	je win_end
 	jmp game
 lose_end:
 	mov edx, OFFSET lose_text
+	jmp game_end
+win_end:
+	mov edx, OFFSET win_text
+	jmp game_end
+game_end:
 	call WriteString
 	call Crlf
 	invoke ExitProcess,0
 main endp
+
+GetWordLength PROC
+    mov esi, OFFSET guess_word   ; pointer to string
+    xor ecx, ecx                 ; counter = 0
+countLoop:
+    mov al, [esi]
+    cmp al, 0                    ; end of string?
+    je done
+    inc ecx                      ; increment length
+    inc esi                      ; move to next char
+    jmp countLoop
+done:
+    mov word_length, ecx
+    ret
+GetWordLength ENDP
 
 InitRevealedWord PROC ; initialize blank un-revealed word
     mov esi, OFFSET guess_word      ; source
@@ -109,6 +137,7 @@ checkLoop:
     jne nextChar
     mov [edi], al          ; reveal letter
     mov bl, 1              ; mark that we changed something
+	inc correct_letters
 nextChar:
     inc esi
     inc edi
