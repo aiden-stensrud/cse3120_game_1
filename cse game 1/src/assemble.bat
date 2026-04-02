@@ -1,6 +1,4 @@
 @ECHO OFF
-rem File: assemble.bat
-rem Hardcoded build for main.asm + words.asm → hangman.exe
 
 setlocal
 
@@ -22,12 +20,16 @@ echo Assembling words.asm...
 ml.exe /c /nologo /Sg /Zi /Fo"words.obj" /Fl"words.lst" /I "%IRVINE%" /W3 /errorReport:prompt /Tawords.asm
 IF ERRORLEVEL 1 GOTO build_fail
 
+echo Assembling hangman_art.asm...
+ml.exe /c /nologo /Sg /Zi /Fo"hangman_art.obj" /Fl"hangman_art.lst" /I "%IRVINE%" /W3 /errorReport:prompt /Tahangman_art.asm
+IF ERRORLEVEL 1 GOTO build_fail
+
 echo Linking hangman.exe...
-link.exe /ERRORREPORT:PROMPT /OUT:"hangman.exe" /NOLOGO /LIBPATH:%IRVINE% main.obj words.obj user32.lib irvine32.lib kernel32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /MACHINE:X86 /SAFESEH:NO
+link.exe /ERRORREPORT:PROMPT /OUT:"hangman.exe" /NOLOGO /LIBPATH:%IRVINE% main.obj words.obj hangman_art.obj user32.lib irvine32.lib kernel32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /MACHINE:X86 /SAFESEH:NO
 IF ERRORLEVEL 1 GOTO build_fail
 
 echo.
-echo Build successful → hangman.exe
+echo Build successful: hangman.exe
 GOTO end
 
 :build_fail

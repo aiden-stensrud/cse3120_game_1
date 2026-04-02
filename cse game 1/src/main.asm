@@ -21,71 +21,8 @@ input  BYTE ?
 win_text BYTE "You Win!",0
 lose_text BYTE "You Lose! The word was: ",0
 
-hang0 BYTE \ ; hangman ascii arts
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang1 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang2 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang3 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-"/|   |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang4 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-"/|\  |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang5 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-"/|\  |",0Dh,0Ah,\
-"/    |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hang6 BYTE \
-" +---+",0Dh,0Ah,\
-" |   |",0Dh,0Ah,\
-" O   |",0Dh,0Ah,\
-"/|\  |",0Dh,0Ah,\
-"/ \  |",0Dh,0Ah,\
-"     |",0Dh,0Ah,\
-"======",0
-
-hangman_pointers DWORD OFFSET hang0, OFFSET hang1, OFFSET hang2, OFFSET hang3
-         DWORD OFFSET hang4, OFFSET hang5, OFFSET hang6
+EXTERN hangman_pointers:DWORD
+EXTERN max_wrong:DWORD
 
 .code
 main proc
@@ -102,7 +39,7 @@ game:
     call Crlf	
 
 	mov eax, wrong_guesses ; check for loss
-	cmp eax,6
+	cmp eax, max_wrong
 	je lose_end
 
 	mov eax, correct_letters ; check for win
