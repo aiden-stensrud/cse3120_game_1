@@ -5,24 +5,27 @@ INCLUDE Irvine32.inc
 ExitProcess proto,dwExitCode:dword
 .data
 
-EXTERN words:DWORD
-EXTERN wordCount:DWORD
+EXTERN words:DWORD		; words in a pool of words
+EXTERN wordCount:DWORD	; number of words in the pool
 
-guess_word DWORD ?
-word_length DWORD ?
-revealed_word BYTE 32 DUP(0)
-letter_guessed BYTE ?
-guessed_letters BYTE 27 DUP(0)
-correct_letters DWORD 0
-wrong_guesses DWORD 0
+guess_word DWORD ?		; the word to be guessed by the player
+word_length DWORD ?		; the length of guess_wrd
+
+revealed_word BYTE 32 DUP(0)	; the portion of the word revealed to the player
+					
+letter_guessed BYTE ?			; the letter guessed by the player
+guessed_letters BYTE 27 DUP(0)	; the letters the player has guessed so far
+correct_letters DWORD 0			; the number of letters the player has found
+wrong_guesses DWORD 0			; the number of incorrect guesses the player has made
+
+; prompt text displayed to the player
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
-input  BYTE ?
 win_text BYTE "You Win!",0
 lose_text BYTE "You Lose! The word was: ",0
 
-EXTERN hangman_pointers:DWORD
-EXTERN max_wrong:DWORD
+EXTERN hangman_pointers:DWORD	; the hangman ascii arts
+EXTERN max_wrong:DWORD			; the number of incorrect guesses the player can make
 
 .code
 main proc
