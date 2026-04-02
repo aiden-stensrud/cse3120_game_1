@@ -94,32 +94,39 @@ main proc
 game:
 	call Clrscr
 	call DisplayHangman
+
 	mov edx, OFFSET revealed_word ; print the word with the correctly guessed letters revealed
     call WriteString
     call Crlf	
+
 	mov eax, wrong_guesses ; check for loss
 	cmp eax,6
 	je lose_end
+
 	mov eax, correct_letters ; check for win
 	mov ebx, word_length
 	cmp ebx, eax
 	je win_end
-	call DisplayGuessed	
+
+	call DisplayGuessed	 ; display guessed letters
 
 	mov edx, OFFSET prompt ; get character from player
     call WriteString
-    call ReadChar        ; AL = character entered
-    mov input, al        ; store it
+    call ReadChar ; character entered is stored in al
     call Crlf
-	call AddGuess
+
+	call AddGuess ; add guess to array and compare against word
 	call CheckGuess
 	jmp game
+
 lose_end:
 	mov edx, OFFSET lose_text
 	jmp game_end
+
 win_end:
 	mov edx, OFFSET win_text
 	jmp game_end
+
 game_end:
 	call WriteString
 	call Crlf
@@ -169,7 +176,7 @@ DisplayHangman PROC
 DisplayHangman ENDP
 
 DisplayGuessed PROC
-	mov edx, OFFSET guessed_display ; display guessed letters
+	mov edx, OFFSET guessed_display
 	call WriteString
 	mov edx, OFFSET guessed_letters
 	call WriteString
