@@ -8,12 +8,9 @@ ExitProcess proto,dwExitCode:dword
 EXTERN words:DWORD
 EXTERN wordCount:DWORD
 
-selectedWord DWORD ?
-hiddenWord BYTE 20 DUP(?)
-
 guess_word DWORD ?
 word_length DWORD ?
-revealed_word BYTE "_____",0
+revealed_word BYTE 32 DUP(0)
 letter_guessed BYTE ?
 guessed_letters BYTE 27 DUP(0)
 correct_letters DWORD 0
@@ -22,7 +19,7 @@ prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
 input  BYTE ?
 win_text BYTE "You Win!",0
-lose_text BYTE "You Lose!",0
+lose_text BYTE "You Lose! The word was: ",0
 
 hang0 BYTE \ ; hangman ascii arts
 " +---+",0Dh,0Ah,\
@@ -94,6 +91,7 @@ hangman_pointers DWORD OFFSET hang0, OFFSET hang1, OFFSET hang2, OFFSET hang3
 main proc
 	call GetRandomWord ; set the guess_word to a random word in words
 	call GetWordLength
+	call InitRevealedWord ; initialize the list of revealed words as a blank slate
 
 game:
 	call Clrscr
@@ -125,6 +123,8 @@ game:
 
 lose_end:
 	mov edx, OFFSET lose_text
+	call WriteString
+	mov edx, guess_word
 	jmp game_end
 
 win_end:
@@ -145,10 +145,11 @@ GetRandomWord PROC
 	mov esi, OFFSET words
 	mov eax, [esi + eax * 4]
 	mov guess_word, eax
+	ret
 GetRandomWord ENDP
 
 GetWordLength PROC
-    mov esi, OFFSET guess_word   ; pointer to string
+    mov esi, guess_word   ; pointer to string
     xor ecx, ecx                 ; counter = 0
 countLoop:
     mov al, [esi]
@@ -165,7 +166,7 @@ done:
 GetWordLength ENDP
 
 InitRevealedWord PROC ; initialize blank un-revealed word
-    mov esi, OFFSET guess_word      ; source
+    mov esi, guess_word				; source
     mov edi, OFFSET revealed_word   ; destination
 
 buildLoop:
