@@ -12,7 +12,7 @@ revealed_word BYTE "_____",0
 letter_guessed BYTE ?
 guessed_letters BYTE 27 DUP(0)
 correct_letters DWORD 0
-wrong_guesses BYTE 0
+wrong_guesses DWORD 0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
 input  BYTE ?
@@ -82,6 +82,9 @@ hang6 BYTE \
 "     |",0Dh,0Ah,\
 "======",0
 
+hangman_pointers DWORD OFFSET hang0, OFFSET hang1, OFFSET hang2, OFFSET hang3
+         DWORD OFFSET hang4, OFFSET hang5, OFFSET hang6
+
 .code
 main proc
 ;prottasha code here
@@ -90,13 +93,11 @@ main proc
 	call GetWordLength
 game:
 	call Clrscr
-	mov edx, OFFSET hang0
-    call WriteString
-    call Crlf
+	call DisplayHangman
 	mov edx, OFFSET revealed_word
     call WriteString
     call Crlf	
-	movzx eax, wrong_guesses ; check for loss
+	mov eax, wrong_guesses ; check for loss
 	cmp eax,6
 	je lose_end
 	mov eax, correct_letters ; check for win
@@ -159,6 +160,17 @@ done:
     mov BYTE PTR [edi], 0           ; null terminate
     ret
 InitRevealedWord ENDP
+
+DisplayHangman PROC
+    mov esi, OFFSET hangman_pointers
+    mov eax, wrong_guesses
+    shl eax, 2              ; multiply by 4
+    add esi, eax
+    mov edx, [esi]
+    call WriteString
+	call Crlf
+    ret
+DisplayHangman ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
