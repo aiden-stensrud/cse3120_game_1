@@ -10,9 +10,11 @@ guess_word BYTE "hello",0
 revealed_word BYTE "_____",0
 letter_guessed BYTE ?
 guessed_letters BYTE 27 DUP(0)
+wrong_guesses BYTE 0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
 input  BYTE ?
+lose_text BYTE "You Lose!",0
 
 hangman BYTE \
 " +---+",0Dh,0Ah,\
@@ -50,8 +52,13 @@ game:
     call Crlf
 	call AddGuess
 	call CheckGuess
+	cmp wrong_guesses,6
+	je lose_end
 	jmp game
-
+lose_end:
+	mov edx, OFFSET lose_text
+	call WriteString
+	call Crlf
 	invoke ExitProcess,0
 main endp
 
@@ -115,7 +122,8 @@ finished:
 CheckGuess ENDP
 
 WrongGuess PROC
-ret
+	inc wrong_guesses
+	ret
 WrongGuess ENDP
 
 end main
