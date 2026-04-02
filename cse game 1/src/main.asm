@@ -22,6 +22,7 @@ main proc
 ;prottasha code here
 	mov	eax,4				
 	add	eax,6	
+	; prints the inital hangman character
 	mov edx, OFFSET hangman
     call WriteString
     call Crlf			
