@@ -5,11 +5,11 @@ INCLUDE Irvine32.inc
 ExitProcess proto,dwExitCode:dword
 .data
 
-EXTERN words:DWORD		; words in a pool of words
-EXTERN wordCount:DWORD	; number of words in the pool
+EXTERN words:DWORD				; words in a pool of words
+EXTERN wordCount:DWORD			; number of words in the pool
 
-guess_word DWORD ?		; the word to be guessed by the player
-word_length DWORD ?		; the length of guess_wrd
+guess_word DWORD ?				; the word to be guessed by the player
+word_length DWORD ?				; the length of guess_wrd
 
 revealed_word BYTE 32 DUP(0)	; the portion of the word revealed to the player
 					
@@ -29,50 +29,50 @@ EXTERN max_wrong:DWORD			; the number of incorrect guesses the player can make
 
 .code
 main proc
-	call GetRandomWord ; set the guess_word to a random word in words
+	call GetRandomWord			; set the guess_word to a random word in words
 	call GetWordLength
-	call InitRevealedWord ; initialize the list of revealed words as a blank slate
+	call InitRevealedWord		; initialize the list of revealed words as a blank slate
 
 game:
 	call Clrscr
-	call DisplayHangman ; display the hangman character in its current phase
+	call DisplayHangman			; display the hangman character in its current phase
 
 	mov edx, OFFSET revealed_word ; print the word with the correctly guessed letters revealed
     call WriteString
     call Crlf	
 
-	mov eax, wrong_guesses ; check for loss
+	mov eax, wrong_guesses		; check for loss
 	cmp eax, max_wrong
 	je lose_end
 
-	mov eax, correct_letters ; check for win
+	mov eax, correct_letters	; check for win
 	mov ebx, word_length
 	cmp ebx, eax
 	je win_end
 
-	call DisplayGuessed	 ; display guessed letters
+	call DisplayGuessed			; display guessed letters
 
-	mov edx, OFFSET prompt ; get character from player
+	mov edx, OFFSET prompt		; get character from player
     call WriteString
-    call ReadChar ; character entered is stored in al
+    call ReadChar				; character entered is stored in al
     call Crlf
 
 	call ValidateGuess
 	cmp eax, 0
 	jne game
 
-	call AddGuess ; add guess to array and compare against word
+	call AddGuess				; add guess to array and compare against word
 	call CheckGuess
 	jmp game
 
 lose_end:
-	mov edx, OFFSET lose_text
+	mov edx, OFFSET lose_text	; inform the player they have lost and what the word was
 	call WriteString
 	mov edx, guess_word
 	jmp game_end
 
 win_end:
-	mov edx, OFFSET win_text
+	mov edx, OFFSET win_text	; inform the player they have won
 	jmp game_end
 
 game_end:
@@ -93,7 +93,7 @@ GetRandomWord PROC
 GetRandomWord ENDP
 
 GetWordLength PROC
-    mov esi, guess_word   ; pointer to string
+    mov esi, guess_word
     xor ecx, ecx                 ; counter = 0
 countLoop:
     mov al, [esi]
@@ -109,7 +109,7 @@ done:
     ret
 GetWordLength ENDP
 
-InitRevealedWord PROC ; initialize blank un-revealed word
+InitRevealedWord PROC				; initialize blank un-revealed word
     mov esi, guess_word				; source
     mov edi, OFFSET revealed_word   ; destination
 
