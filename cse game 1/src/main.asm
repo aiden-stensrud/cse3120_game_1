@@ -157,8 +157,7 @@ DisplayHangman PROC
     shl eax, 2						; multiply by 4
     add esi, eax
     mov edx, [esi]
-    call WriteString
-	call Crlf
+    call WriteToConsole	
     ret
 DisplayHangman ENDP
 
@@ -187,12 +186,10 @@ ValidateGuess ENDP
 
 DisplayGuessed PROC
 	mov edx, OFFSET guessed_display
-	call WriteString
+	call WriteToConsole
 
 	mov edx, OFFSET guessed_letters
-	call WriteString
-
-	call Crlf
+	call WriteToConsole
 	ret
 DisplayGuessed ENDP
 
