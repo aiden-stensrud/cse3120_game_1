@@ -125,6 +125,22 @@ count DWORD ?
 	pushad
 	; Get the console buffer size and attributes
 	INVOKE GetConsoleScreenBufferInfo, consoleHandle, ADDR consoleInfo
+	mov ax,bufInfo.dwSize.X;
+	mov WORD PTR lineLength,ax
+	.IF lineLength > MAX_COLS
+	  mov lineLength,MAX_COLS
+	.ENDIF
+	mov ax,bufInfo.wAttributes		; Fill the attribs array
+	mov ecx,lineLength
+	mov edi,OFFSET attribs
+	rep stosw
+	movzx ecx,bufInfo.dwSize.Y		; loop counter: number of lines
+L1:	push ecx
+	INVOKE WriteConsoleOutputCharacter, consoleHandle, ADDR blanks, lineLength, cursorLoc, ADDR count
+	INVOKE WriteConsoleOutputAttribute, consoleHandle, ADDR attribs, lineLength, cursorLoc, ADDR count
+	add cursorLoc.Y, 1		; point to the next buffer line
+	pop ecx
+	LOOP L1
 	popad
 	ret
 ClearScreen ENDP
