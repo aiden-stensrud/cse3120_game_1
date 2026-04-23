@@ -42,8 +42,7 @@ game:
 	call DisplayHangman				; display the hangman character in its current phase
 
 	mov edx, OFFSET revealed_word	; print the word with the correctly guessed letters revealed
-    call WriteString
-    call Crlf	
+    call WriteToConsole	
 
 	mov eax, wrong_guesses			; check for loss
 	cmp eax, max_wrong
@@ -57,10 +56,9 @@ game:
 	call DisplayGuessed				; display guessed letters
 
 	mov edx, OFFSET prompt			; get character from player
-    call WriteString
+    call WriteToConsole
     call ReadChar					; character entered is stored in al
 	mov letter_guessed, al
-    call Crlf
 
 	call ValidateGuess
 	cmp eax, 0
@@ -72,7 +70,7 @@ game:
 
 lose_end:
 	mov edx, OFFSET lose_text		; inform the player they have lost and what the word was
-	call WriteString
+	call WriteToConsole
 	mov edx, guess_word
 	jmp game_end
 
@@ -81,8 +79,7 @@ win_end:
 	jmp game_end
 
 game_end:
-	call WriteString
-	call Crlf
+	call WriteToConsole
 	invoke ExitProcess,0
 main endp
 
@@ -90,12 +87,14 @@ WriteToConsole PROC
     pushad
     mov esi, edx															; preserve string pointer
     xor ecx, ecx
+
 countLoop:																	; get length of string
     cmp BYTE PTR [esi], 0
     je  gotLength
     inc ecx
     inc esi
     jmp countLoop
+
 gotLength:
     INVOKE GetStdHandle, STD_OUTPUT_HANDLE									; get console output handle
     mov ebx, eax
