@@ -8,6 +8,10 @@ ExitProcess proto,dwExitCode:dword
 EXTERN words:DWORD					; words in a pool of words
 EXTERN wordCount:DWORD				; number of words in the pool
 
+consoleHandle HANDLE 0				; handle to standard output device
+bytesWritten  DWORD ?				; number of bytes written
+crlf_new BYTE 13, 10				; ascii for new line
+
 guess_word DWORD ?					; the word to be guessed by the player
 word_length DWORD ?					; the length of guess_wrd
 
