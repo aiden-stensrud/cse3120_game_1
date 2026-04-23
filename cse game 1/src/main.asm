@@ -86,6 +86,25 @@ game_end:
 	invoke ExitProcess,0
 main endp
 
+WriteToConsole PROC
+    pushad
+    mov esi, edx															; preserve string pointer
+    xor ecx, ecx
+countLoop:																	; get length of string
+    cmp BYTE PTR [esi], 0
+    je  gotLength
+    inc ecx
+    inc esi
+    jmp countLoop
+gotLength:
+    INVOKE GetStdHandle, STD_OUTPUT_HANDLE									; get console output handle
+    mov ebx, eax
+    INVOKE WriteConsoleA, ebx, edx, ecx, ADDR bytesWritten, 0				; write message to console
+	INVOKE WriteConsoleA, ebx, OFFSET crlf_new, 2, ADDR bytesWritten, 0		; go to next line
+	popad
+    ret
+WriteToConsole ENDP
+
 GetRandomWord PROC
 	;random functions derived from textbook chapter 5, page 196
 	call Randomize
