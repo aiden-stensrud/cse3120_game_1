@@ -3,6 +3,9 @@ INCLUDE Irvine32.inc
 .386
 .stack 4096
 ExitProcess proto,dwExitCode:dword
+FillConsoleOutputCharacterA proto :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+FillConsoleOutputAttribute PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+
 .data
 
 EXTERN words:DWORD					; words in a pool of words
@@ -11,6 +14,8 @@ EXTERN wordCount:DWORD				; number of words in the pool
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
 crlf_new BYTE 13, 10				; ascii for new line
+consoleInfo BYTE 22 DUP(?)			; current console info
+homeCoord DWORD 0					; x=0, y=0 on screen clear
 
 seed DWORD ?						; seed for random word picker
 
