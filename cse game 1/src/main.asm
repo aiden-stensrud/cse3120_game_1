@@ -12,6 +12,8 @@ consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
 crlf_new BYTE 13, 10				; ascii for new line
 
+seed DWORD ?						; seed for random word picker
+
 guess_word DWORD ?					; the word to be guessed by the player
 word_length DWORD ?					; the length of guess_wrd
 
@@ -106,7 +108,7 @@ WriteToConsole ENDP
 
 GetRandomWord PROC
 	;random functions derived from textbook chapter 5, page 196
-	call Randomize
+	call GetRandomSeed
 	mov eax, wordCount
 	call RandomRange
 	mov esi, OFFSET words
@@ -114,6 +116,12 @@ GetRandomWord PROC
 	mov guess_word, eax
 	ret
 GetRandomWord ENDP
+
+GetRandomSeed PROC
+	INVOKE GetTickCount
+    mov seed, eax
+    ret
+GetRandomSeed ENDP
 
 GetWordLength PROC
     mov esi, guess_word
