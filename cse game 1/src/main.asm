@@ -110,7 +110,7 @@ GetRandomWord PROC
 	;random functions derived from textbook chapter 5, page 196
 	call GetRandomSeed
 	mov eax, wordCount
-	call RandomRange
+	call RandomInRange
 	mov esi, OFFSET words
 	mov eax, [esi + eax * 4]
 	mov guess_word, eax
@@ -122,6 +122,24 @@ GetRandomSeed PROC
     mov seed, eax
     ret
 GetRandomSeed ENDP
+
+RandomInRange PROC			; returns EAX = random number from 0 to range-1
+    push ecx
+    push edx
+    mov ecx, eax            ; ECX = range
+    mov eax, seed
+    imul eax, 214013
+    add eax, 2531011
+    mov seed, eax
+    shr eax, 16
+    and eax, 7FFFh
+    xor edx, edx
+    div ecx                 ; EDX = remainder
+    mov eax, edx            ; EAX = random result
+    pop edx
+    pop ecx
+    ret
+RandomInRange ENDP
 
 GetWordLength PROC
     mov esi, guess_word
