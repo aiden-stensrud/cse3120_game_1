@@ -17,6 +17,11 @@ crlf_new BYTE 13, 10				; ascii for new line
 consoleInfo BYTE 22 DUP(?)			; current console info
 homeCoord DWORD 0					; x=0, y=0 on screen clear
 
+inputHandle DWORD ?
+eventsRead DWORD ?
+inputRecord BYTE 20 DUP(?)
+
+
 seed DWORD ?						; seed for random word picker
 
 guess_word DWORD ?					; the word to be guessed by the player
@@ -110,6 +115,18 @@ gotLength:
 	popad
     ret
 WriteToConsole ENDP
+
+WaitForKey PROC
+    INVOKE GetStdHandle, STD_INPUT_HANDLE
+    mov inputHandle, eax
+waitLoop:
+    INVOKE ReadConsoleInputA, inputHandle, OFFSET inputRecord, 1, OFFSET eventsRead
+    cmp WORD PTR [inputRecord], 1
+    jne waitLoop
+    cmp DWORD PTR [inputRecord+4], 0
+    je waitLoop
+    ret
+WaitForKey ENDP
 
 ClearScreen PROC
 LOCAL bufInfo:CONSOLE_SCREEN_BUFFER_INFO
