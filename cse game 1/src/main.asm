@@ -279,6 +279,22 @@ DisplayGuessed PROC
 	pushad
 	mov edx, OFFSET guessed_display
 	call WriteToConsole
+	mov esi, OFFSET guessed_letters
+    mov ecx, guessed_count
+    cmp ecx, 0
+    je done
+printLoop:     ; print letter
+    mov al, [esi]
+    mov oneChar, al
+    mov edx, OFFSET oneChar
+    call WriteToConsole
+    inc esi
+    dec ecx
+    jz done
+    mov edx, OFFSET commaSpace     ; print comma + space
+    call WriteToConsole
+    jmp printLoop
+done:
 	mov edx, OFFSET newline
 	call WriteToConsole	
 	popad
