@@ -93,6 +93,18 @@ beginWord: ; store pointer to word
 finishWord:
     mov BYTE PTR [edi], 0
     inc edi
+skipLineEnd:
+    mov al, [esi]
+    cmp al, 13
+    je eatEnd
+    cmp al, 10
+    je eatEnd
+    cmp al, 0
+    je done
+    jmp nextLine
+eatEnd:
+    inc esi
+    jmp skipLineEnd
 done:
 	popad
 	ret
