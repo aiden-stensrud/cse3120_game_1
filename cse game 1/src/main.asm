@@ -332,6 +332,24 @@ finished:
 CheckGuess ENDP
 
 CheckSpace PROC
+    mov esi, guess_word
+    mov edi, OFFSET revealed_word
+    mov al, ' '
+checkLoop:
+    mov dl, [esi]
+    cmp dl, 0
+    je finished
+    cmp dl, al
+    jne nextChar
+    cmp BYTE PTR [edi], '_'
+    jne nextChar
+    mov [edi], al
+    inc correct_letters
+nextChar:
+    inc esi
+    inc edi
+    jmp checkLoop
+finished:
     ret
 CheckSpace ENDP
 
