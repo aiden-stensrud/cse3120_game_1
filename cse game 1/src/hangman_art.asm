@@ -14,7 +14,7 @@ hang0 BYTE \
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang1 BYTE \
 " +---+",0Dh,0Ah,\
@@ -23,7 +23,7 @@ hang1 BYTE \
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang2 BYTE \
 " +---+",0Dh,0Ah,\
@@ -32,7 +32,7 @@ hang2 BYTE \
 " |   |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang3 BYTE \
 " +---+",0Dh,0Ah,\
@@ -41,7 +41,7 @@ hang3 BYTE \
 "/|   |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang4 BYTE \
 " +---+",0Dh,0Ah,\
@@ -50,7 +50,7 @@ hang4 BYTE \
 "/|\  |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang5 BYTE \
 " +---+",0Dh,0Ah,\
@@ -59,7 +59,7 @@ hang5 BYTE \
 "/|\  |",0Dh,0Ah,\
 "/    |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang6 BYTE \
 " +---+",0Dh,0Ah,\
@@ -68,7 +68,7 @@ hang6 BYTE \
 "/|\  |",0Dh,0Ah,\
 "/ \  |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hang7 BYTE \
 " +---+",0Dh,0Ah,\
@@ -77,7 +77,7 @@ hang7 BYTE \
 "/|\  |",0Dh,0Ah,\
 "/ \  |",0Dh,0Ah,\
 "     |",0Dh,0Ah,\
-"======",0
+"======",13,10,0
 
 hangman_pointers DWORD OFFSET hang0, OFFSET hang1, OFFSET hang2, OFFSET hang3
                  DWORD OFFSET hang4, OFFSET hang5, OFFSET hang6, OFFSET hang7

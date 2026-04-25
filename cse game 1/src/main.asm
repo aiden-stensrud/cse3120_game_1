@@ -14,7 +14,6 @@ LoadWords PROTO						; load words from txt
 
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
-crlf_new BYTE 13, 10				; ascii for new line
 consoleInfo BYTE 22 DUP(?)			; current console info
 homeCoord DWORD 0					; x=0, y=0 on screen clear
 
@@ -114,7 +113,6 @@ gotLength:
     INVOKE GetStdHandle, STD_OUTPUT_HANDLE									; get console output handle
     mov ebx, eax
     INVOKE WriteConsoleA, ebx, edx, ecx, ADDR bytesWritten, 0				; write message to console
-	INVOKE WriteConsoleA, ebx, OFFSET crlf_new, 2, ADDR bytesWritten, 0		; go to next line
 	popad
     ret
 WriteToConsole ENDP
