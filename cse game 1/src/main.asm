@@ -307,24 +307,6 @@ done:
 DisplayGuessed ENDP
 
 ColorGuess PROC
-	pushad
-    mov esi, guess_word
-    mov al, oneChar
-    mov bl, 0
-	checkLoop:
-    mov dl, [esi]
-    cmp dl, 13
-    je done
-    cmp dl, al
-    jne nextChar
-	INVOKE SetConsoleTextAttribute, consoleHandle, OFFSET greenColor
-    ret
-nextChar:
-    inc esi
-    jmp checkLoop
-done:
-	popad
-	INVOKE SetConsoleTextAttribute, consoleHandle, OFFSET redColor
 	ret
 ColorGuess ENDP
 
