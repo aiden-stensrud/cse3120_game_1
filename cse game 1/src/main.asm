@@ -287,11 +287,13 @@ DisplayGuessed PROC
 	mov edx, OFFSET guessed_display
 	call WriteToConsole
 	mov esi, OFFSET guessed_letters
+	mov edi, OFFSET guess_colors
     mov ecx, guessed_count
-    cmp ecx, 0
-    je done
+    shr ecx, 1
 
 printLoop:     ; print letter
+	cmp ecx, 0
+	je done
     mov al, [esi]
     mov oneChar, al
     mov edx, OFFSET oneChar
@@ -319,6 +321,7 @@ findEnd:
     cmp al, 0
     je store
     inc esi
+	add edi, 2
     jmp findEnd
 
 store:
