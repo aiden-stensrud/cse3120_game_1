@@ -16,6 +16,7 @@ consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
 consoleInfo BYTE 22 DUP(?)			; current console info
 homeCoord DWORD 0					; x=0, y=0 on screen clear
+newline BYTE 13,10
 
 inputHandle DWORD ?
 eventsRead DWORD ?
@@ -37,8 +38,8 @@ wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 ; prompt text displayed to the player
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
-win_text BYTE "You Win!",0
-lose_text BYTE "You Lose! The word was: ",0
+win_text BYTE "You Win!",13,10,0
+lose_text BYTE "You Lose!",13,10,"The phrase was: ",0
 
 EXTERN hangman_pointers:DWORD		; the hangman ascii arts
 EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
@@ -277,6 +278,10 @@ DisplayGuessed PROC
 
 	mov edx, OFFSET guessed_letters
 	call WriteToConsole
+
+	mov edx, OFFSET newline
+	call WriteToConsole	
+
 	ret
 DisplayGuessed ENDP
 
