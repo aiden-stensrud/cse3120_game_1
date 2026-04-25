@@ -49,6 +49,19 @@ word20 BYTE "window", 0
 .code
 
 LoadWords PROC
+    pushad
+    ; open file
+    INVOKE CreateFileA, OFFSET filename, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0
+    mov fileHandle, eax
+	; read file
+    INVOKE ReadFile, fileHandle, OFFSET fileBuffer, SIZEOF fileBuffer - 1, OFFSET bytesRead, 0
+    ; close file
+    INVOKE CloseHandle, fileHandle
+	; null terminate loaded bytes
+    mov esi, OFFSET fileBuffer
+    add esi, bytesRead
+    mov BYTE PTR [esi], 0
+	popad
 	ret
 LoadWords ENDP
 
