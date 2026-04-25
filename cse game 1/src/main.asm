@@ -26,8 +26,8 @@ commaSpace		BYTE ", ",0
 oneChar			BYTE ?,0
 guessed_count	DWORD 0
 
-redColor	DWORD 02h
-greenColor	DWORD 04h
+redColor	WORD 02h
+greenColor	WORD 04h
 
 seed DWORD ?						; seed for random word picker
 
@@ -38,6 +38,7 @@ revealed_word BYTE 64 DUP(0)		; the portion of the word revealed to the player
 					
 letter_guessed BYTE ?				; the letter guessed by the player
 guessed_letters BYTE 27 DUP(0)		; the letters the player has guessed so far
+guess_colors WORD 27 DUP(0)			; what to color each guess on the display list
 correct_letters DWORD 0				; the number of letters the player has found
 wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 
@@ -52,6 +53,9 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
 .code
 main proc
+	INVOKE GetStdHandle, STD_OUTPUT_HANDLE
+	mov consoleHandle, eax
+
 	call LoadWords
 	call GetRandomWord				; set the guess_word to a random word in words
 	call GetWordLength
@@ -305,10 +309,6 @@ done:
 	popad
 	ret
 DisplayGuessed ENDP
-
-ColorGuess PROC
-	ret
-ColorGuess ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
