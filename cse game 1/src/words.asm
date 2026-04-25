@@ -59,6 +59,11 @@ LoadWords PROC
     mov esi, OFFSET fileBuffer
     add esi, bytesRead
     mov BYTE PTR [esi], 0
+	; load vars
+	mov esi, OFFSET fileBuffer
+	mov edi, OFFSET wordStorage
+	mov ebx, OFFSET words
+	mov wordCount, 0
 nextLine:
 skipBlank:
     mov al, [esi]
