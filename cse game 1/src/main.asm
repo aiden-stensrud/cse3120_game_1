@@ -22,13 +22,16 @@ inputHandle DWORD ?
 eventsRead DWORD ?
 inputRecord BYTE 20 DUP(?)
 
+commaSpace		BYTE ", ",0
+oneChar			BYTE ?,0
+guessed_count	DWORD 0
 
 seed DWORD ?						; seed for random word picker
 
 guess_word DWORD ?					; the word to be guessed by the player
 word_length DWORD ?					; the length of guess_wrd
 
-revealed_word BYTE 32 DUP(0)		; the portion of the word revealed to the player
+revealed_word BYTE 64 DUP(0)		; the portion of the word revealed to the player
 					
 letter_guessed BYTE ?				; the letter guessed by the player
 guessed_letters BYTE 27 DUP(0)		; the letters the player has guessed so far
@@ -273,15 +276,12 @@ reject:								; input is not valid
 ValidateGuess ENDP
 
 DisplayGuessed PROC
+	pushad
 	mov edx, OFFSET guessed_display
 	call WriteToConsole
-
-	mov edx, OFFSET guessed_letters
-	call WriteToConsole
-
 	mov edx, OFFSET newline
 	call WriteToConsole	
-
+	popad
 	ret
 DisplayGuessed ENDP
 
@@ -300,6 +300,7 @@ store:
     mov [esi], al
     inc esi
     mov BYTE PTR [esi], 0
+	inc guessed_count
     ret
 AddGuess ENDP
 
