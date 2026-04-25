@@ -230,6 +230,10 @@ buildLoop:
     jmp buildLoop
 
 done:
+	mov BYTE PTR [edi],13			; carriage return
+	inc edi
+	mov BYTE PTR [edi],10			; line feed
+	inc edi
     mov BYTE PTR [edi], 0           ; null terminate
     ret
 InitRevealedWord ENDP
@@ -302,7 +306,7 @@ CheckGuess PROC
 
 checkLoop:
     mov dl, [esi]
-    cmp dl, 0
+    cmp dl, 13
     je done
 
     cmp dl, al
@@ -335,7 +339,7 @@ CheckSpace PROC
     mov al, ' '
 checkLoop:
     mov dl, [esi]
-    cmp dl, 0
+    cmp dl, 13
     je finished
     cmp dl, al
     jne nextChar
