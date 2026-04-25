@@ -61,6 +61,24 @@ LoadWords PROC
     mov esi, OFFSET fileBuffer
     add esi, bytesRead
     mov BYTE PTR [esi], 0
+nextLine:
+skipBlank:
+    mov al, [esi]
+    cmp al, 13
+    je skipChar
+    cmp al, 10
+    je skipChar
+    cmp al, 0
+    je done
+    jmp beginWord
+skipChar:
+    inc esi
+    jmp skipBlank
+beginWord: ; store pointer to word
+    mov [ebx], edi
+    add ebx, 4
+    inc wordCount
+done:
 	popad
 	ret
 LoadWords ENDP
