@@ -78,6 +78,21 @@ beginWord: ; store pointer to word
     mov [ebx], edi
     add ebx, 4
     inc wordCount
+	copyChars:
+    mov al, [esi]
+    cmp al, 0
+    je finishWord
+    cmp al, 13
+    je finishWord
+    cmp al, 10
+    je finishWord
+    mov [edi], al
+    inc edi
+    inc esi
+    jmp copyChars
+finishWord:
+    mov BYTE PTR [edi], 0
+    inc edi
 done:
 	popad
 	ret
