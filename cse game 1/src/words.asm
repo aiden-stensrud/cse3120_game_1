@@ -30,20 +30,6 @@ word6  BYTE "world", 0
 word7  BYTE "pizza", 0
 word8  BYTE "water", 0
 word9  BYTE "planet", 0
-word10 BYTE "orange", 0
-word11 BYTE "cabana", 0
-word12 BYTE "chair", 0
-word13 BYTE "pencil", 0
-word14 BYTE "school", 0
-word15 BYTE "polish", 0
-word16 BYTE "i love very long sentences", 0
-word17 BYTE "abandon", 0
-word18 BYTE "bread", 0
-word19 BYTE "zebra", 0
-word20 BYTE "window", 0
-
-
-
 .code
 
 LoadWords PROC
@@ -64,6 +50,7 @@ LoadWords PROC
 	mov edi, OFFSET wordStorage
 	mov ebx, OFFSET words
 	mov wordCount, 0
+
 nextLine:
 skipBlank:
     mov al, [esi]
@@ -74,9 +61,11 @@ skipBlank:
     cmp al, 0
     je done
     jmp beginWord
+
 skipChar:
     inc esi
     jmp skipBlank
+
 beginWord: ; store pointer to word
     mov [ebx], edi
     add ebx, 4
@@ -93,6 +82,7 @@ beginWord: ; store pointer to word
     inc edi
     inc esi
     jmp copyChars
+
 finishWord:
     mov BYTE PTR [edi], 0
     inc edi
