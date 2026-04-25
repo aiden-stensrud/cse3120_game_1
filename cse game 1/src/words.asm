@@ -21,15 +21,6 @@ wordStorage BYTE 4096 DUP(0)
 words     DWORD 256 DUP(0)     ; public pointer array
 wordCount DWORD 0              ; public number of words
 
-word1  BYTE "cat", 0
-word2  BYTE "dog", 0
-word3  BYTE "four", 0
-word4  BYTE "goat", 0
-word5  BYTE "tiger", 0
-word6  BYTE "world", 0
-word7  BYTE "pizza", 0
-word8  BYTE "water", 0
-word9  BYTE "planet", 0
 .code
 
 LoadWords PROC
@@ -86,6 +77,7 @@ beginWord: ; store pointer to word
 finishWord:
     mov BYTE PTR [edi], 0
     inc edi
+
 skipLineEnd:
     mov al, [esi]
     cmp al, 13
@@ -95,9 +87,11 @@ skipLineEnd:
     cmp al, 0
     je done
     jmp nextLine
+
 eatEnd:
     inc esi
     jmp skipLineEnd
+
 done:
 	popad
 	ret
