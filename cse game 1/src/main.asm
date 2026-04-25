@@ -26,6 +26,9 @@ commaSpace		BYTE ", ",0
 oneChar			BYTE ?,0
 guessed_count	DWORD 0
 
+redColor	DWORD 02h
+greenColor	DWORD 04h
+
 seed DWORD ?						; seed for random word picker
 
 guess_word DWORD ?					; the word to be guessed by the player
@@ -283,6 +286,7 @@ DisplayGuessed PROC
     mov ecx, guessed_count
     cmp ecx, 0
     je done
+
 printLoop:     ; print letter
     mov al, [esi]
     mov oneChar, al
@@ -294,12 +298,22 @@ printLoop:     ; print letter
     mov edx, OFFSET commaSpace     ; print comma + space
     call WriteToConsole
     jmp printLoop
+
 done:
 	mov edx, OFFSET newline
 	call WriteToConsole	
 	popad
 	ret
 DisplayGuessed ENDP
+
+ColorGuess PROC
+	pushad
+    mov esi, guess_word
+    mov al, oneChar
+    mov bl, 0
+	popad
+	ret
+ColorGuess ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
