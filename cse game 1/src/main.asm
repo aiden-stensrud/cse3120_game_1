@@ -50,6 +50,7 @@ main proc
 	call GetRandomWord				; set the guess_word to a random word in words
 	call GetWordLength
 	call InitRevealedWord			; initialize the list of revealed words as a blank slate
+	call CheckSpace					; spaces count as a free guess
 
 game:
 	call Clrscr
@@ -329,6 +330,10 @@ done:
 finished:
     ret
 CheckGuess ENDP
+
+CheckSpace PROC
+    ret
+CheckSpace ENDP
 
 WrongGuess PROC
 	inc wrong_guesses
