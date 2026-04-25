@@ -312,6 +312,7 @@ DisplayGuessed ENDP
 
 AddGuess PROC
     mov esi, OFFSET guessed_letters
+	mov edi, OFFSET guess_colors
 
 findEnd:
     mov al, [esi]
@@ -325,7 +326,24 @@ store:
     mov [esi], al
     inc esi
     mov BYTE PTR [esi], 0
+	mov WORD PTR [edi], 04h
 	inc guessed_count
+	push esi
+    mov esi, guess_word
+    mov ecx, word_length
+checkLoop:
+    cmp ecx, 0
+    je doneCheck
+    cmp al, [esi]
+    je correct
+    inc esi
+    dec ecx
+    jmp checkLoop
+correct:
+    mov WORD PTR [edi], 02h
+doneCheck:
+    pop esi
+    inc guessed_count
     ret
 AddGuess ENDP
 
