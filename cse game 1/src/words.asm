@@ -15,6 +15,14 @@ PUBLIC LoadWords
 
 .data
 
+filename BYTE "words.txt",0
+fileHandle DWORD ?
+bytesRead  DWORD ?
+fileBuffer  BYTE 4096 DUP(0)
+wordStorage BYTE 4096 DUP(0)
+words     DWORD 256 DUP(0)     ; public pointer array
+wordCount DWORD 0              ; public number of words
+
 word1  BYTE "cat", 0
 word2  BYTE "dog", 0
 word3  BYTE "four", 0
@@ -36,12 +44,7 @@ word18 BYTE "bread", 0
 word19 BYTE "zebra", 0
 word20 BYTE "window", 0
 
-words DWORD OFFSET word1, OFFSET word2, OFFSET word3, OFFSET word4, OFFSET word5
-      DWORD OFFSET word6, OFFSET word7, OFFSET word8, OFFSET word9, OFFSET word10
-      DWORD OFFSET word11, OFFSET word12, OFFSET word13, OFFSET word14, OFFSET word15
-      DWORD OFFSET word16, OFFSET word17, OFFSET word18, OFFSET word19, OFFSET word20
 
-wordCount DWORD 20
 
 .code
 
