@@ -10,6 +10,7 @@ FillConsoleOutputAttribute PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
 
 EXTERN words:DWORD					; words in a pool of words
 EXTERN wordCount:DWORD				; number of words in the pool
+LoadWords PROTO						; load words from txt
 
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
@@ -45,6 +46,7 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
 .code
 main proc
+	call LoadWords
 	call GetRandomWord				; set the guess_word to a random word in words
 	call GetWordLength
 	call InitRevealedWord			; initialize the list of revealed words as a blank slate

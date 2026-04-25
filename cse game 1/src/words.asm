@@ -1,9 +1,7 @@
+INCLUDE Irvine32.inc
 .386
-.model flat, stdcall
 option casemap:none
 
-CreateFileA PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
-ReadFile    PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
 CloseHandle PROTO :DWORD
 GENERIC_READ          EQU 80000000h
 OPEN_EXISTING         EQU 3
