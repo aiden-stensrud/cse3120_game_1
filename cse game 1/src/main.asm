@@ -13,24 +13,23 @@ EXTERN wordCount:DWORD				; number of words in the pool
 EXTERN titleArt:BYTE				; title screen ascii art
 LoadWords PROTO						; load words from txt
 
+EXTERN hangman_pointers:DWORD		; the hangman ascii arts
+EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
+
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
 newline BYTE 13,10
 
-commaSpace		BYTE ", ",0
-oneChar			BYTE ?,0
-guessed_count	DWORD 0
-
 seed DWORD ?						; seed for random word picker
-
 guess_word DWORD ?					; the word to be guessed by the player
 word_length DWORD ?					; the length of guess_wrd
-
 revealed_word BYTE 64 DUP(0)		; the portion of the word revealed to the player
 					
 letter_guessed BYTE ?				; the letter guessed by the player
 guessed_letters BYTE 27 DUP(0)		; the letters the player has guessed so far
+guessed_count	DWORD 0				; the number of letters the player has guessed so far
 guess_colors WORD 27 DUP(0)			; what to color each guess on the display list
+oneChar			BYTE ?,0			; temp var for cmparing a player's input character
 correct_letters DWORD 0				; the number of letters the player has found
 wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 
@@ -38,11 +37,9 @@ wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 titlePrompt BYTE "Press any key to start!",0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
+commaSpace		BYTE ", ",0
 win_text BYTE "You Win!",13,10,0
 lose_text BYTE "You Lose!",13,10,"The phrase was: ",0
-
-EXTERN hangman_pointers:DWORD		; the hangman ascii arts
-EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
 .code
 main proc
