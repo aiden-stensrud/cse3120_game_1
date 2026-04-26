@@ -15,20 +15,11 @@ LoadWords PROTO						; load words from txt
 
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
-consoleInfo BYTE 22 DUP(?)			; current console info
-homeCoord DWORD 0					; x=0, y=0 on screen clear
 newline BYTE 13,10
-
-inputHandle DWORD ?
-eventsRead DWORD ?
-inputRecord BYTE 20 DUP(?)
 
 commaSpace		BYTE ", ",0
 oneChar			BYTE ?,0
 guessed_count	DWORD 0
-
-redColor	WORD 02h
-greenColor	WORD 04h
 
 seed DWORD ?						; seed for random word picker
 
