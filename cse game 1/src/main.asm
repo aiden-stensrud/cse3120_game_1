@@ -10,6 +10,7 @@ FillConsoleOutputAttribute PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
 
 EXTERN words:DWORD					; words in a pool of words
 EXTERN wordCount:DWORD				; number of words in the pool
+EXTERN titleArt:BYTE				; title screen ascii art
 LoadWords PROTO						; load words from txt
 
 consoleHandle HANDLE 0				; handle to standard output device
@@ -55,6 +56,11 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 main proc
 	INVOKE GetStdHandle, STD_OUTPUT_HANDLE
 	mov consoleHandle, eax
+
+	mov edx, OFFSET titleArt
+	call WriteToConsole
+	call ReadChar
+	call Clrscr
 
 	call LoadWords
 	call GetRandomWord				; set the guess_word to a random word in words
