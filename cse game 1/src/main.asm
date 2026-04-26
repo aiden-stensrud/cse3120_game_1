@@ -296,13 +296,28 @@ printLoop:     ; print letter
 	je done
     mov al, [esi]
     mov oneChar, al
+	push esi
+    push edi
+    push ecx
+	INVOKE SetConsoleTextAttribute, consoleHandle, WORD PTR [edi]
     mov edx, OFFSET oneChar
     call WriteToConsole
-    inc esi
+	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
+    pop ecx
+    pop edi
+    pop esi
+	inc esi
+	add edi, 2
     dec ecx
     jz done
+	push esi
+    push edi
+    push ecx
     mov edx, OFFSET commaSpace     ; print comma + space
     call WriteToConsole
+	pop ecx
+    pop edi
+    pop esi
     jmp printLoop
 
 done:
