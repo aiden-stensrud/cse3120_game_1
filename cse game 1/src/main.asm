@@ -44,6 +44,7 @@ correct_letters DWORD 0				; the number of letters the player has found
 wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 
 ; prompt text displayed to the player
+titlePrompt BYTE "Press any key to start!",0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
 win_text BYTE "You Win!",13,10,0
@@ -57,7 +58,11 @@ main proc
 	INVOKE GetStdHandle, STD_OUTPUT_HANDLE
 	mov consoleHandle, eax
 
-	mov edx, OFFSET titleArt
+	INVOKE SetConsoleTextAttribute, consoleHandle, 0Dh
+	mov edx, OFFSET titleArt ; lead title screen until a key is pressed
+	call WriteToConsole
+	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
+	mov edx, OFFSET titlePrompt ; lead title screen until a key is pressed
 	call WriteToConsole
 	call ReadChar
 	call Clrscr
