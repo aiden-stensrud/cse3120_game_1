@@ -4,8 +4,22 @@ option casemap:none
 
 PUBLIC hangman_pointers
 PUBLIC max_wrong
+PUBLIC titleArt
 
 .data
+
+titleArt BYTE "    o__ __o                                                          o         o                                                                                  o   ",13,10
+         BYTE "   /v     v\                                                        <|>       <|>                                                                                <|>  ",13,10
+         BYTE "  />       <\                                                       < >       < >                                                                                / \  ",13,10
+         BYTE " _\o____         o       o   \o_ __o      o__  __o   \o__ __o        |         |      o__ __o/  \o__ __o     o__ __o/  \o__ __o__ __o      o__ __o/  \o__ __o    \o/  ",13,10
+         BYTE "      \_\__o__  <|>     <|>   |    v\    /v      |>   |     |>       o__/_ _\__o     /v     |    |     |>   /v     |    |     |     |>    /v     |    |     |>    |   ",13,10
+         BYTE "            \   < >     < >  / \    <\  />      //   / \   < >       |         |    />     / \  / \   / \  />     / \  / \   / \   / \   />     / \  / \   / \   < >  ",13,10
+         BYTE "  \         /    |       |   \o/     /  \o    o/     \o/            <o>       <o>   \      \o/  \o/   \o/  \      \o/  \o/   \o/   \o/   \      \o/  \o/   \o/        ",13,10
+         BYTE "   o       o     o       o    |     o    v\  /v __o   |              |         |     o      |    |     |    o      |    |     |     |     o      |    |     |     o   ",13,10
+         BYTE "   <\__ __/>     <\__ __/>   / \ __/>     <\/> __/>  / \            / \       / \    <\__  / \  / \   / \   <\__  < >  / \   / \   / \    <\__  / \  / \   / \  _<|>_ ",13,10
+         BYTE "                             \o/                                                                                   |                                                  ",13,10
+         BYTE "                              |                                                                            o__     o                                                  ",13,10
+         BYTE "                             / \                                                                           <\__ __/>                                                  ",13,10,0
 
 hang0 BYTE \
 " +---+",0Dh,0Ah,\
