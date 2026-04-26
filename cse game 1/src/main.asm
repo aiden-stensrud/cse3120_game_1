@@ -144,18 +144,6 @@ gotLength:
     ret
 WriteToConsole ENDP
 
-WaitForKey PROC
-    INVOKE GetStdHandle, STD_INPUT_HANDLE
-    mov inputHandle, eax
-waitLoop:
-    INVOKE ReadConsoleInputA, inputHandle, OFFSET inputRecord, 1, OFFSET eventsRead
-    cmp WORD PTR [inputRecord], 1
-    jne waitLoop
-    cmp DWORD PTR [inputRecord+4], 0
-    je waitLoop
-    ret
-WaitForKey ENDP
-
 ClearScreen PROC
 LOCAL bufInfo:CONSOLE_SCREEN_BUFFER_INFO
 MAX_COLS = 512
@@ -180,12 +168,6 @@ count DWORD ?
 	mov edi,OFFSET attribs
 	rep stosw
 	movzx ecx,bufInfo.dwSize.Y		; loop counter: number of lines
-L1:	push ecx
-	INVOKE WriteConsoleOutputCharacter, consoleHandle, ADDR blanks, lineLength, cursorLoc, ADDR count
-	INVOKE WriteConsoleOutputAttribute, consoleHandle, ADDR attribs, lineLength, cursorLoc, ADDR count
-	add cursorLoc.Y, 1		; point to the next buffer line
-	pop ecx
-	LOOP L1
 	popad
 	ret
 ClearScreen ENDP
