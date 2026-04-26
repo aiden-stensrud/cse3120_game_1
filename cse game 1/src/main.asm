@@ -58,11 +58,12 @@ main proc
 	INVOKE GetStdHandle, STD_OUTPUT_HANDLE
 	mov consoleHandle, eax
 
+	call Clrscr
 	INVOKE SetConsoleTextAttribute, consoleHandle, 0Dh
-	mov edx, OFFSET titleArt ; lead title screen until a key is pressed
+	mov edx, OFFSET titleArt ; load title screen until a key is pressed
 	call WriteToConsole
 	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
-	mov edx, OFFSET titlePrompt ; lead title screen until a key is pressed
+	mov edx, OFFSET titlePrompt
 	call WriteToConsole
 	call ReadChar
 	call Clrscr
@@ -105,17 +106,21 @@ game:
 	jmp game
 
 lose_end:
+	INVOKE SetConsoleTextAttribute, consoleHandle, 04h
 	mov edx, OFFSET lose_text		; inform the player they have lost and what the word was
 	call WriteToConsole
+	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
 	mov edx, guess_word
 	jmp game_end
 
 win_end:
+	INVOKE SetConsoleTextAttribute, consoleHandle, 0Eh
 	mov edx, OFFSET win_text		; inform the player they have won
 	jmp game_end
 
 game_end:
 	call WriteToConsole
+	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
 	invoke ExitProcess,0
 main endp
 
