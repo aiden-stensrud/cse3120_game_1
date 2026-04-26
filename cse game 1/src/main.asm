@@ -155,20 +155,6 @@ cursorLoc COORD <0,0>
 count DWORD ?
 
 .code
-	pushad
-	; Get the console buffer size and attributes
-	INVOKE GetConsoleScreenBufferInfo, consoleHandle, ADDR consoleInfo
-	mov ax,bufInfo.dwSize.X;
-	mov WORD PTR lineLength,ax
-	.IF lineLength > MAX_COLS
-	  mov lineLength,MAX_COLS
-	.ENDIF
-	mov ax,bufInfo.wAttributes		; Fill the attribs array
-	mov ecx,lineLength
-	mov edi,OFFSET attribs
-	rep stosw
-	movzx ecx,bufInfo.dwSize.Y		; loop counter: number of lines
-	popad
 	ret
 ClearScreen ENDP
 
