@@ -144,20 +144,6 @@ gotLength:
     ret
 WriteToConsole ENDP
 
-ClearScreen PROC
-LOCAL bufInfo:CONSOLE_SCREEN_BUFFER_INFO
-MAX_COLS = 512
-.data
-blanks BYTE MAX_COLS DUP(' ')
-attribs WORD MAX_COLS DUP(0)
-lineLength DWORD 0
-cursorLoc COORD <0,0>
-count DWORD ?
-
-.code
-	ret
-ClearScreen ENDP
-
 GetRandomWord PROC
 	;random functions derived from textbook chapter 5, page 196
 	call GetRandomSeed
