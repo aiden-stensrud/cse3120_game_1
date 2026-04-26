@@ -8,23 +8,28 @@ FillConsoleOutputAttribute PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
 
 .data
 
+; EXTERNS FROM words.asm
 EXTERN words:DWORD					; words in a pool of words
 EXTERN wordCount:DWORD				; number of words in the pool
 EXTERN titleArt:BYTE				; title screen ascii art
 LoadWords PROTO						; load words from txt
 
+; EXTERNS FROM hangman_art.asm
 EXTERN hangman_pointers:DWORD		; the hangman ascii arts
 EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
+; VARS FOR HADNLING CONSOLE OUTPUT
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
 newline BYTE 13,10
 
+; VARS FOR TRACKING THE HIDDEN PHRASE
 seed DWORD ?						; seed for random word picker
 guess_word DWORD ?					; the word to be guessed by the player
 word_length DWORD ?					; the length of guess_wrd
 revealed_word BYTE 64 DUP(0)		; the portion of the word revealed to the player
-					
+
+; VARS FOR TRACKING USER INPUT AND GUESSES					
 letter_guessed BYTE ?				; the letter guessed by the player
 guessed_letters BYTE 27 DUP(0)		; the letters the player has guessed so far
 guessed_count	DWORD 0				; the number of letters the player has guessed so far
@@ -33,7 +38,7 @@ oneChar			BYTE ?,0			; temp var for cmparing a player's input character
 correct_letters DWORD 0				; the number of letters the player has found
 wrong_guesses DWORD 0				; the number of incorrect guesses the player has made
 
-; prompt text displayed to the player
+; TEXT DISPLAYED TO THE PLAYER
 titlePrompt BYTE "Press any key to start!",0
 prompt BYTE "Enter a letter (lowercase): ",0
 guessed_display BYTE "Guessed: ",0
