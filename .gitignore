@@ -7,6 +7,9 @@ cse game 1/src/words.obj
 cse game 1/src/hangman_art.lst
 cse game 1/src/hangman_art.obj
 
+cse game 1/src/music.lst
+cse game 1/src/music.obj
+
 cse game 1/src/hangman.pdb
 cse game 1/src/hangman.ilk
 cse game 1/src/hangman.exe

@@ -3,6 +3,9 @@ INCLUDE Irvine32.inc
 .stack 4096
 includelib winmm.lib
 PlaySoundA PROTO :DWORD, :DWORD, :DWORD
+
+PUBLIC PlayGameTheme
+
 .data
 
 game_theme BYTE "Music\\game.wav",0
@@ -10,7 +13,7 @@ game_theme BYTE "Music\\game.wav",0
 .code
 
 PlayGameTheme PROC
-	INVOKE PlaySoundA, OFFSET game_theme, 0, 8h
+	INVOKE PlaySoundA, OFFSET game_theme, 0, 8h OR 1h
 	ret
 PlayGameTheme ENDP
 

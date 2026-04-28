@@ -18,6 +18,9 @@ LoadWords PROTO						; load words from txt
 EXTERN hangman_pointers:DWORD		; the hangman ascii arts
 EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
+; EXTERNS FROM music.asm
+PlayGameTheme PROTO					; plays the music during gameplay
+
 ; VARS FOR HADNLING CONSOLE OUTPUT
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
@@ -66,6 +69,7 @@ main proc
 	call GetWordLength
 	call InitRevealedWord			; initialize the list of revealed words as a blank slate
 	call CheckSpace					; spaces count as a free guess
+	call PlayGameTheme				; play main music
 
 game:
 	call Clrscr
