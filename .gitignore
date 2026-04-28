@@ -1,22 +1,22 @@
-cse game 1/src/main.lst
-cse game 1/src/main.obj
+Game Files/src/main.lst
+Game Files/src/main.obj
 
-cse game 1/src/words.lst
-cse game 1/src/words.obj
+Game Files/src/words.lst
+Game Files/src/words.obj
 
-cse game 1/src/hangman_art.lst
-cse game 1/src/hangman_art.obj
+Game Files/src/hangman_art.lst
+Game Files/src/hangman_art.obj
 
-cse game 1/src/music.lst
-cse game 1/src/music.obj
+Game Files/src/music.lst
+Game Files/src/music.obj
 
-cse game 1/src/hangman.pdb
-cse game 1/src/hangman.ilk
-cse game 1/src/hangman.exe
+Game Files/src/hangman.pdb
+Game Files/src/hangman.ilk
+Game Files/src/hangman.exe
 
-cse game 1/src/Project.VC.db
-cse game 1/src/Project.lst
-cse game 1/src/Project.sdf
-cse game 1/src/Project.vcxproj.user
-cse game 1/src/Project.v12.suo
-cse game 1/src/Debug/
+Game Files/src/Project.VC.db
+Game Files/src/Project.lst
+Game Files/src/Project.sdf
+Game Files/src/Project.vcxproj.user
+Game Files/src/Project.v12.suo
+Game Files/src/Debug/
