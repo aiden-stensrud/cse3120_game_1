@@ -51,6 +51,7 @@ guessed_display BYTE "Guessed: ",0
 commaSpace		BYTE ", ",0
 win_text BYTE "You Win!",13,10,0
 lose_text BYTE "You Lose!",13,10,"The phrase was: ",0
+exit_text BYTE "Press any key to exit.",0
 
 .code
 main proc
@@ -113,6 +114,8 @@ lose_end:
 	call PlayLoseSFX				; play lose sound effect
 	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
 	mov edx, guess_word
+	call WriteToConsole
+	mov edx, OFFSET newline
 	jmp game_end
 
 win_end:
@@ -124,7 +127,10 @@ win_end:
 game_end:
 	call WriteToConsole
 	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
+	mov edx, OFFSET exit_text
+	call WriteToConsole
 	call ReadChar
+	call Clrscr
 	invoke ExitProcess,0
 main endp
 
