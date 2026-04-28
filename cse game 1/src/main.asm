@@ -21,7 +21,7 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 ; VARS FOR HADNLING CONSOLE OUTPUT
 consoleHandle HANDLE 0				; handle to standard output device
 bytesWritten  DWORD ?				; number of bytes written
-newline BYTE 13,10
+newline BYTE 13,10,0
 
 ; VARS FOR TRACKING THE HIDDEN PHRASE
 seed DWORD ?						; seed for random word picker
@@ -230,6 +230,7 @@ ValidateGuess PROC
     cmp al, 'z'
     ja reject
     mov esi, OFFSET guessed_letters ; check duplicates
+
 checkLoop:
     cmp BYTE PTR [esi], 0
     je accept
@@ -237,10 +238,12 @@ checkLoop:
     je reject
     inc esi
     jmp checkLoop
+
 accept:								; input is valid
     mov eax, 0
     ret
 reject:								; input is not valid
+
     mov eax, 1
     ret
 ValidateGuess ENDP
@@ -312,6 +315,7 @@ store:
 	push esi
     mov esi, guess_word
     mov ecx, word_length
+
 checkLoop:
     cmp ecx, 0
     je doneCheck
@@ -320,8 +324,10 @@ checkLoop:
     inc esi
     dec ecx
     jmp checkLoop
+
 correct:
     mov WORD PTR [edi], 02h
+
 doneCheck:
     pop esi
     inc guessed_count
@@ -367,6 +373,7 @@ CheckSpace PROC
     mov esi, guess_word
     mov edi, OFFSET revealed_word
     mov al, ' '
+
 checkLoop:
     mov dl, [esi]
     cmp dl, 13
@@ -377,10 +384,12 @@ checkLoop:
     jne nextChar
     mov [edi], al
     inc correct_letters
+
 nextChar:
     inc esi
     inc edi
     jmp checkLoop
+
 finished:
     ret
 CheckSpace ENDP
