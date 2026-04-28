@@ -20,6 +20,7 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 
 ; EXTERNS FROM music.asm
 PlayGameTheme PROTO					; plays the music during gameplay
+PlayTitleTheme PROTO				; plays the music when the title is displayed
 
 ; VARS FOR HADNLING CONSOLE OUTPUT
 consoleHandle HANDLE 0				; handle to standard output device
@@ -55,6 +56,7 @@ main proc
 	mov consoleHandle, eax
 
 	call Clrscr
+	call PlayTitleTheme
 	INVOKE SetConsoleTextAttribute, consoleHandle, 0Dh
 	mov edx, OFFSET titleArt ; load title screen until a key is pressed
 	call WriteToConsole
