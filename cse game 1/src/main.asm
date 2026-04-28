@@ -21,6 +21,8 @@ EXTERN max_wrong:DWORD				; the number of incorrect guesses the player can make
 ; EXTERNS FROM music.asm
 PlayGameTheme PROTO					; plays the music during gameplay
 PlayTitleTheme PROTO				; plays the music when the title is displayed
+PlayWinSFX PROTO					; plays the sound effect on win
+PlayLoseSFX PROTO					; plays the sound effect on lose
 
 ; VARS FOR HADNLING CONSOLE OUTPUT
 consoleHandle HANDLE 0				; handle to standard output device
@@ -108,11 +110,13 @@ lose_end:
 	INVOKE SetConsoleTextAttribute, consoleHandle, 04h
 	mov edx, OFFSET lose_text		; inform the player they have lost and what the word was
 	call WriteToConsole
+	call PlayLoseSFX				; play lose sound effect
 	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
 	mov edx, guess_word
 	jmp game_end
 
 win_end:
+	call PlayWinSFX					; play win sound effect
 	INVOKE SetConsoleTextAttribute, consoleHandle, 0Eh
 	mov edx, OFFSET win_text		; inform the player they have won
 	jmp game_end
@@ -120,6 +124,7 @@ win_end:
 game_end:
 	call WriteToConsole
 	INVOKE SetConsoleTextAttribute, consoleHandle, 07h
+	call ReadChar
 	invoke ExitProcess,0
 main endp
 

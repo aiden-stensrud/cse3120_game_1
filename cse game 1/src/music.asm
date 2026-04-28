@@ -30,12 +30,12 @@ PlayGameTheme PROC
 PlayGameTheme ENDP
 
 PlayWinSFX PROC
-	INVOKE PlaySoundA, OFFSET win_sfx, 0, 8h OR 1h
+	INVOKE PlaySoundA, OFFSET win_sfx, 0, 1h
 	ret
 PlayWinSFX ENDP
 
 PlayLoseSFX PROC
-	INVOKE PlaySoundA, OFFSET lose_sfx, 0, 8h OR 1h
+	INVOKE PlaySoundA, OFFSET lose_sfx, 0, 1h
 	ret
 PlayLoseSFX ENDP
 
