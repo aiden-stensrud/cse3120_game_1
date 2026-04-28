@@ -56,7 +56,7 @@ main proc
 	mov consoleHandle, eax
 
 	call Clrscr
-	call PlayTitleTheme
+	call PlayTitleTheme		; play title theme
 	INVOKE SetConsoleTextAttribute, consoleHandle, 0Dh
 	mov edx, OFFSET titleArt ; load title screen until a key is pressed
 	call WriteToConsole
